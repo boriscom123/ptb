@@ -2,31 +2,65 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\Role;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
+#[Fillable([
+    'telegram_id',
+    'username',
+    'first_name',
+    'last_name',
+    'language_code',
+    'role',
+    'started_at',
+    'blocked_bot_at',
+    'last_seen_at',
+])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    protected $attributes = [
+        'role' => Role::User->value,
+    ];
+
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'telegram_id' => 'integer',
+            'role' => Role::class,
+            'started_at' => 'datetime',
+            'blocked_bot_at' => 'datetime',
+            'last_seen_at' => 'datetime',
         ];
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === Role::Admin;
+    }
+
+    public function fullName(): string
+    {
+        return trim($this->first_name.' '.$this->last_name);
+    }
+
+    /**
+     * Локаль интерфейса по языку Telegram; неподдерживаемые языки — fallback.
+     */
+    public function preferredLocale(): string
+    {
+        return self::localeFor($this->language_code);
+    }
+
+    public static function localeFor(?string $languageCode): string
+    {
+        $language = strtolower(substr((string) $languageCode, 0, 2));
+
+        return in_array($language, config('bot.locales'), true) ? $language : config('app.fallback_locale');
     }
 }

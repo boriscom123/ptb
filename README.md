@@ -10,6 +10,7 @@ Telegram-бот с админкой в виде миниприложения Tel
 cp .env.example .env   # заполнить APP_KEY, DB_PASSWORD и остальные секреты
 docker compose up -d --build
 docker compose exec app php artisan migrate
+docker compose exec app php artisan bot:setup   # вебхук, команды и описания бота в Telegram
 ```
 
 Приложение: https://150-241-105-178.sslip.io, проверка API: `/api/health`.
@@ -21,4 +22,6 @@ docker compose ps                         # статус сервисов
 docker compose logs -f app queue          # логи
 docker compose exec app php artisan ...   # artisan
 docker compose exec node npm ...          # npm во фронтенде
+docker compose exec app php artisan test  # тесты (отдельная БД ptb_test)
+docker compose exec app vendor/bin/pint   # форматирование PHP-кода
 ```
