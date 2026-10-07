@@ -1,0 +1,15 @@
+{$APP_DOMAIN} {
+	encode zstd gzip
+
+	# API, вебхук Telegram и health-check обрабатывает Laravel
+	@backend path /api/* /telegram/* /up
+	handle @backend {
+		root * /var/www/backend/public
+		php_fastcgi app:9000
+	}
+
+	# Всё остальное — фронтенд (Vite dev server)
+	handle {
+		reverse_proxy node:5173
+	}
+}
