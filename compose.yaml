@@ -26,6 +26,7 @@ services:
     volumes:
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./backend/public:/var/www/backend/public:ro
+      - ./frontend:/srv/frontend:ro
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
@@ -75,11 +76,10 @@ services:
   node:
     image: node:24-alpine
     working_dir: /app
-    environment:
-      APP_DOMAIN: ${APP_DOMAIN}
     volumes:
       - ./frontend:/app
-    command: ["sh", "-c", "npm install && npm run dev"]
+    # Пересборка фронтенда при изменениях; результат в frontend/dist раздаёт Caddy
+    command: ["sh", "-c", "npm install && npx vite build --watch"]
     restart: unless-stopped
 
 volumes:

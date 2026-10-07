@@ -13,7 +13,7 @@
     "user": "User"
   },
   "users": {
-    "search": "Name, @username or Telegram ID",
+    "search": "Name, {'@'}username or Telegram ID",
     "all": "All",
     "empty": "Nobody found",
     "loadMore": "Load more",

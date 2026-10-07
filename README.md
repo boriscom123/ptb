@@ -22,6 +22,7 @@ docker compose ps                         # статус сервисов
 docker compose logs -f app queue          # логи
 docker compose exec app php artisan ...   # artisan
 docker compose exec node npm ...          # npm во фронтенде
+docker compose exec node npm test         # тесты фронтенда
 docker compose exec app php artisan test  # тесты (отдельная БД ptb_test)
 docker compose exec app vendor/bin/pint   # форматирование PHP-кода
 ```

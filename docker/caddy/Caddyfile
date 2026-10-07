@@ -8,8 +8,16 @@
 		php_fastcgi app:9000
 	}
 
-	# Всё остальное — фронтенд (Vite dev server)
+	# Всё остальное — собранный фронтенд (SPA)
 	handle {
-		reverse_proxy node:5173
+		root * /srv/frontend/dist
+
+		@assets path /assets/*
+		header @assets Cache-Control "public, max-age=31536000, immutable"
+		@pages not path /assets/*
+		header @pages Cache-Control "no-cache"
+
+		try_files {path} /index.html
+		file_server
 	}
 }
