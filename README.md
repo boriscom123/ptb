@@ -25,4 +25,7 @@ docker compose exec node npm ...          # npm во фронтенде
 docker compose exec node npm test         # тесты фронтенда
 docker compose exec app php artisan test  # тесты (отдельная БД ptb_test)
 docker compose exec app vendor/bin/pint   # форматирование PHP-кода
+docker compose logs -f agent              # лог AI-агента
 ```
+
+Правила проекта для разработки (и для AI-агента) — [CLAUDE.md](CLAUDE.md).
