@@ -32,6 +32,9 @@ services:
     depends_on:
       - app
       - node
+    networks:
+      - default
+      - agent
     restart: unless-stopped
 
   app:
@@ -52,6 +55,7 @@ services:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      AGENT_DB_PASSWORD: ${AGENT_DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql
       - ./docker/postgres/create-test-db.sh:/docker-entrypoint-initdb.d/create-test-db.sh:ro
@@ -60,6 +64,9 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+    networks:
+      - default
+      - agent
     restart: unless-stopped
 
   redis:
@@ -82,7 +89,41 @@ services:
     command: ["sh", "-c", "npm install && npx vite build --watch"]
     restart: unless-stopped
 
+  # AI-агент. Своя сеть (только caddy и postgres): нет доступа к redis, php-fpm и рабочей БД.
+  agent:
+    build: ./docker/agent
+    image: ptb-agent
+    environment:
+      AGENT_SECRET: ${AGENT_SECRET}
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN}
+      EVENTS_URL: https://${APP_DOMAIN}/api/agent/events
+      DB_HOST: postgres
+      DB_TEST_DATABASE: ptb_agent_test
+      DB_TEST_USERNAME: ptb_agent
+      DB_TEST_PASSWORD: ${AGENT_DB_PASSWORD}
+      GIT_AUTHOR_NAME: PTB Agent
+      GIT_AUTHOR_EMAIL: agent@ptb.local
+      GIT_COMMITTER_NAME: PTB Agent
+      GIT_COMMITTER_EMAIL: agent@ptb.local
+    volumes:
+      - ./:/workspace
+      # Секреты и логи приложения агенту не видны
+      - /dev/null:/workspace/.env:ro
+      - /dev/null:/workspace/backend/.env:ro
+      - agent_home:/root
+      - agent_worktrees:/worktrees
+    tmpfs:
+      - /workspace/backend/storage/logs
+    networks:
+      - agent
+    restart: unless-stopped
+
+networks:
+  agent:
+
 volumes:
+  agent_home:
+  agent_worktrees:
   caddy_data:
   caddy_config:
   postgres_data:

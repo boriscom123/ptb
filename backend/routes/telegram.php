@@ -2,7 +2,9 @@
 
 /** @var Nutgram $bot */
 
+use App\Models\User;
 use App\Moderation\ChatAdmins;
+use App\Telegram\Handlers\AgentHandlers;
 use App\Telegram\Handlers\HelpCommand;
 use App\Telegram\Handlers\MyChatMemberHandler;
 use App\Telegram\Handlers\StartCommand;
@@ -52,8 +54,33 @@ $bot->onChatMember(fn (Nutgram $bot) => app(ChatAdmins::class)->forget($bot->cha
 // Глобальные middleware (в т.ч. модерация) выполняются только при наличии обработчика
 $bot->onEditedMessage(fn () => null);
 
+// Кнопки задач AI-агента — только для администраторов
+$bot->group(function (Nutgram $bot) {
+    $bot->onCallbackQueryData('agent:run:{key}', [AgentHandlers::class, 'run']);
+    $bot->onCallbackQueryData('agent:drop:{key}', [AgentHandlers::class, 'drop']);
+    $bot->onCallbackQueryData('agent:stop:{id}', [AgentHandlers::class, 'stop']);
+    $bot->onCallbackQueryData('agent:revert:{id}', [AgentHandlers::class, 'revert']);
+    $bot->onCallbackQueryData('agent:revert-yes:{id}', [AgentHandlers::class, 'revertConfirm']);
+    $bot->onCallbackQueryData('agent:revert-no:{id}', [AgentHandlers::class, 'revertCancel']);
+})->middleware(function (Nutgram $bot, $next) {
+    if ($bot->get(User::class)?->isAdmin()) {
+        $next($bot);
+    } else {
+        $bot->answerCallbackQuery(text: __('api.forbidden'), show_alert: true);
+    }
+});
+
+// Текст в личном чате: от администратора — задача агенту, от остальных — подсказка
 $bot->fallbackOn(UpdateType::MESSAGE, function (Nutgram $bot) {
-    if ($bot->chat()?->isPrivate()) {
+    if (! $bot->chat()?->isPrivate()) {
+        return;
+    }
+
+    $text = $bot->message()->text;
+
+    if ($bot->get(User::class)?->isAdmin() && $text !== null && ! str_starts_with($text, '/')) {
+        app(AgentHandlers::class)->draft($bot);
+    } else {
         $bot->sendMessage(__('bot.unknown'));
     }
 });

@@ -21,3 +21,8 @@
 		file_server
 	}
 }
+
+# Внутренний адрес для Laravel → контейнер agent (порт не публикуется наружу)
+http://:8081 {
+	reverse_proxy agent:8080
+}

@@ -13,6 +13,7 @@ class TestEnvironmentTest extends TestCase
     public function test_tests_use_isolated_environment(): void
     {
         $this->assertSame('testing', app()->environment());
-        $this->assertSame('ptb_test', DB::connection()->getDatabaseName());
+        $this->assertSame('pgsql_testing', DB::getDefaultConnection());
+        $this->assertStringEndsWith('_test', DB::connection()->getDatabaseName());
     }
 }
