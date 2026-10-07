@@ -7,6 +7,12 @@ return [
     // Поддерживаемые языки интерфейса (первые две буквы language_code Telegram)
     'locales' => ['ru', 'en'],
 
+    // Максимальный возраст initData миниприложения (секунды)
+    'init_data_ttl' => 86400,
+
+    // Адрес миниприложения (админки)
+    'web_app_url' => env('APP_URL'),
+
     // Адрес, на который Telegram отправляет обновления
     'webhook_url' => env('APP_URL').'/api/telegram/webhook',
 

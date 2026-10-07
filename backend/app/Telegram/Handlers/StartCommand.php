@@ -3,6 +3,7 @@
 namespace App\Telegram\Handlers;
 
 use App\Models\User;
+use App\Telegram\AdminMenu;
 use SergiX44\Nutgram\Nutgram;
 
 class StartCommand
@@ -20,6 +21,9 @@ class StartCommand
                 'role' => $user->role->label(),
             ]),
             parse_mode: 'HTML',
+            reply_markup: $user->isAdmin() ? AdminMenu::inlineKeyboard() : null,
         );
+
+        AdminMenu::syncMenuButton($bot, $user);
     }
 }

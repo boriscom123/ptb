@@ -1,0 +1,42 @@
+{
+  "app": {
+    "loading": "Загрузка…",
+    "openInTelegram": "Откройте админку через бота в Telegram.",
+    "forbidden": "Админка доступна только администраторам.",
+    "retry": "Повторить"
+  },
+  "nav": {
+    "users": "Пользователи"
+  },
+  "roles": {
+    "admin": "Администратор",
+    "user": "Пользователь"
+  },
+  "users": {
+    "search": "Имя, @username или Telegram ID",
+    "all": "Все",
+    "empty": "Никого не найдено",
+    "loadMore": "Показать ещё",
+    "total": "Всего: {count}",
+    "you": "вы"
+  },
+  "user": {
+    "role": "Роль",
+    "telegramId": "Telegram ID",
+    "language": "Язык",
+    "lastSeen": "Последняя активность",
+    "registered": "В базе с",
+    "startedBot": "Запустил бота",
+    "blockedBot": "Заблокировал бота",
+    "never": "—",
+    "save": "Сохранить роль",
+    "confirm": "Изменить роль {name} на «{role}»?",
+    "saved": "Роль изменена",
+    "ownRole": "Свою роль изменить нельзя.",
+    "protected": "Главный администратор (ADMIN_TELEGRAM_ID) — роль изменить нельзя.",
+    "notFound": "Пользователь не найден"
+  },
+  "errors": {
+    "generic": "Что-то пошло не так. Попробуйте ещё раз."
+  }
+}

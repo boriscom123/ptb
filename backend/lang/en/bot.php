@@ -5,6 +5,9 @@ return [
     'help' => "<b>Commands</b>\n\n/start — get started\n/help — command list",
     'unknown' => "I don't understand this command. Command list — /help",
     'error' => 'Something went wrong. Please try again later.',
+    'role_changed' => 'Your role has been changed: <b>:role</b>.',
+    'admin_panel' => 'Admin',
+    'open_admin_panel' => '⚙️ Open admin panel',
 
     'commands' => [
         'start' => 'Get started',

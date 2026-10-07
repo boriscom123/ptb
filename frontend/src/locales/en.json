@@ -1,0 +1,42 @@
+{
+  "app": {
+    "loading": "Loading…",
+    "openInTelegram": "Open the admin panel via the bot in Telegram.",
+    "forbidden": "The admin panel is available to administrators only.",
+    "retry": "Retry"
+  },
+  "nav": {
+    "users": "Users"
+  },
+  "roles": {
+    "admin": "Administrator",
+    "user": "User"
+  },
+  "users": {
+    "search": "Name, @username or Telegram ID",
+    "all": "All",
+    "empty": "Nobody found",
+    "loadMore": "Load more",
+    "total": "Total: {count}",
+    "you": "you"
+  },
+  "user": {
+    "role": "Role",
+    "telegramId": "Telegram ID",
+    "language": "Language",
+    "lastSeen": "Last activity",
+    "registered": "Added",
+    "startedBot": "Started the bot",
+    "blockedBot": "Blocked the bot",
+    "never": "—",
+    "save": "Save role",
+    "confirm": "Change {name}'s role to “{role}”?",
+    "saved": "Role changed",
+    "ownRole": "You cannot change your own role.",
+    "protected": "Main administrator (ADMIN_TELEGRAM_ID) — role cannot be changed.",
+    "notFound": "User not found"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again."
+  }
+}

@@ -38,7 +38,8 @@ services:
 
   queue:
     <<: *php
-    command: ["php", "artisan", "queue:work", "--tries=3", "--sleep=1"]
+    # queue:listen перечитывает код на каждую задачу — правки применяются без перезапуска (dev)
+    command: ["php", "artisan", "queue:listen", "--tries=3", "--sleep=1"]
 
   scheduler:
     <<: *php
