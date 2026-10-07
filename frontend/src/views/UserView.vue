@@ -1,18 +1,17 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import { api } from '../api'
 import RoleBadge from '../components/RoleBadge.vue'
-import UserAvatar from '../components/UserAvatar.vue'
+import AppAvatar from '../components/AppAvatar.vue'
 import { dateTime, fullName, relativeTime } from '../format'
 import { useAuthStore } from '../stores/auth'
-import { alert, confirm, haptic, showBackButton } from '../telegram'
+import { useBackButton } from '../composables'
+import { alert, confirm, haptic } from '../telegram'
 
 const props = defineProps({ id: { type: Number, required: true } })
 
 const { t } = useI18n()
-const router = useRouter()
 const auth = useAuthStore()
 
 const user = ref(null)
@@ -54,13 +53,8 @@ async function save() {
   }
 }
 
-const back = () => (window.history.length > 1 ? router.back() : router.push({ name: 'users' }))
-let hideBackButton
-onMounted(() => {
-  hideBackButton = showBackButton(back)
-  load()
-})
-onUnmounted(() => hideBackButton())
+useBackButton(() => ({ name: 'users' }))
+onMounted(load)
 </script>
 
 <template>
@@ -70,7 +64,7 @@ onUnmounted(() => hideBackButton())
 
     <template v-else>
       <header class="profile">
-        <UserAvatar :user="user" :size="80" />
+        <AppAvatar :name="fullName(user)" :seed="user.telegram_id" :size="80" />
         <h1 class="profile__name">{{ fullName(user) }}</h1>
         <a v-if="user.username" class="profile__username" :href="`https://t.me/${user.username}`">@{{ user.username }}</a>
         <RoleBadge :role="user.role" />

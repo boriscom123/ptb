@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from 'vue'
 import { api } from '../api'
 import RoleBadge from '../components/RoleBadge.vue'
-import UserAvatar from '../components/UserAvatar.vue'
+import AppAvatar from '../components/AppAvatar.vue'
 import { fullName, relativeTime } from '../format'
 import { useAuthStore } from '../stores/auth'
 
@@ -68,7 +68,7 @@ onMounted(load)
 
     <section class="list">
       <RouterLink v-for="user in users" :key="user.id" :to="{ name: 'user', params: { id: user.id } }" class="list-item">
-        <UserAvatar :user="user" />
+        <AppAvatar :name="fullName(user)" :seed="user.telegram_id" />
         <div class="list-item__body">
           <div class="list-item__title">
             {{ fullName(user) }}

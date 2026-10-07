@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import TabBar from './components/TabBar.vue'
 import { useAuthStore } from './stores/auth'
 import { isInTelegram } from './telegram'
 
@@ -29,7 +30,10 @@ onMounted(start)
 </script>
 
 <template>
-  <RouterView v-if="state === 'ready'" />
+  <template v-if="state === 'ready'">
+    <TabBar v-if="$route.meta.tab" />
+    <RouterView />
+  </template>
 
   <div v-else class="screen-message">
     <div v-if="state === 'loading'" class="spinner" />

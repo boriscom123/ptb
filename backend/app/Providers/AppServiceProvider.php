@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Moderation\RuleRegistry;
 use App\Services\InitDataValidator;
 use App\Services\JwtService;
 use Illuminate\Http\Request;
@@ -19,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
             algorithm: config('jwt.algorithm'),
             issuer: (string) config('jwt.issuer'),
         ));
+
+        $this->app->singleton(RuleRegistry::class, fn () => new RuleRegistry(config('moderation.rules')));
 
         $this->app->singleton(InitDataValidator::class, fn () => new InitDataValidator(
             botToken: (string) config('nutgram.token'),

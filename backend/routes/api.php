@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TelegramWebhookController;
@@ -25,5 +26,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/users', [UserController::class, 'index']);
         Route::get('/users/{user}', [UserController::class, 'show']);
         Route::patch('/users/{user}', [UserController::class, 'update']);
+
+        Route::get('/chats', [ChatController::class, 'index']);
+        Route::get('/chats/{chat}', [ChatController::class, 'show']);
+        Route::patch('/chats/{chat}', [ChatController::class, 'update']);
+        Route::put('/chats/{chat}/rules/{rule}', [ChatController::class, 'updateRule']);
+        Route::get('/chats/{chat}/events', [ChatController::class, 'events']);
     });
 });

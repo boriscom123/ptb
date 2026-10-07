@@ -4,14 +4,6 @@ export function fullName(user) {
   return [user.first_name, user.last_name].filter(Boolean).join(' ')
 }
 
-export function initials(user) {
-  return [user.first_name, user.last_name]
-    .filter(Boolean)
-    .map((part) => part[0])
-    .join('')
-    .toUpperCase()
-}
-
 const units = [
   ['year', 31536000],
   ['month', 2592000],

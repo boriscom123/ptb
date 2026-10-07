@@ -63,7 +63,7 @@ class BotTest extends TestCase
 
     public function test_commands_are_ignored_in_groups(): void
     {
-        $this->telegram(222, chatType: ChatType::SUPERGROUP)->hearText('/start')->reply()->assertNoReply();
+        $this->telegram(222, chatType: ChatType::SUPERGROUP)->hearText('/start')->reply()->assertCalled('sendMessage', 0);
     }
 
     public function test_unknown_private_message_gets_hint(): void
@@ -73,6 +73,6 @@ class BotTest extends TestCase
 
     public function test_group_messages_get_no_hint(): void
     {
-        $this->telegram(222, chatType: ChatType::SUPERGROUP)->hearText('привет')->reply()->assertNoReply();
+        $this->telegram(222, chatType: ChatType::SUPERGROUP)->hearText('привет')->reply()->assertCalled('sendMessage', 0);
     }
 }

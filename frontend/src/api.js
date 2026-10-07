@@ -49,4 +49,9 @@ export const api = {
   users: (params) => request('GET', `/admin/users?${new URLSearchParams(params)}`),
   user: (id) => request('GET', `/admin/users/${id}`),
   updateUser: (id, data) => request('PATCH', `/admin/users/${id}`, data),
+  chats: () => request('GET', '/admin/chats'),
+  chat: (id) => request('GET', `/admin/chats/${id}`),
+  updateChat: (id, data) => request('PATCH', `/admin/chats/${id}`, data),
+  updateRule: (id, rule, data) => request('PUT', `/admin/chats/${id}/rules/${rule}`, data),
+  chatEvents: (id, page) => request('GET', `/admin/chats/${id}/events?page=${page}`),
 }

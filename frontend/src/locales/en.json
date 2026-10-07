@@ -6,7 +6,8 @@
     "retry": "Retry"
   },
   "nav": {
-    "users": "Users"
+    "users": "Users",
+    "chats": "Chats"
   },
   "roles": {
     "admin": "Administrator",
@@ -38,5 +39,62 @@
   },
   "errors": {
     "generic": "Something went wrong. Please try again."
+  },
+  "chats": {
+    "empty": "The bot has not been added to any group yet. Add it to a group (or a channel discussion group) as an administrator allowed to delete messages.",
+    "types": {
+      "group": "Group",
+      "supergroup": "Group",
+      "channel": "Channel"
+    },
+    "status": {
+      "administrator": "bot is admin",
+      "member": "bot is a member",
+      "left": "bot removed",
+      "kicked": "bot banned",
+      "creator": "bot is owner",
+      "restricted": "bot restricted"
+    },
+    "moderationOn": "moderation on",
+    "moderationOff": "moderation off",
+    "events": "Violations: {count}"
+  },
+  "chat": {
+    "moderation": "Moderation",
+    "moderationHint": "Messages from chat administrators, anonymous admins and automatic forwards from the linked channel are not checked.",
+    "channelHint": "Only administrators post in a channel. To moderate comments, add the bot to the channel discussion group.",
+    "notAdmin": "The bot is not an administrator of this chat, so moderation does not work. Make the bot an administrator.",
+    "noDelete": "The bot cannot delete messages, so moderation does not work.",
+    "noRestrict": "The bot cannot restrict members, so the mute action will only delete the message.",
+    "rules": "Rules",
+    "journal": "Violation log",
+    "save": "Save",
+    "saved": "Saved"
+  },
+  "rules": {
+    "links": {
+      "name": "Links",
+      "description": "Deletes messages with links, except allowed domains."
+    },
+    "stop_words": {
+      "name": "Stop words",
+      "description": "Deletes messages with forbidden words. Case-insensitive. A trailing asterisk matches word beginnings: spam*"
+    }
+  },
+  "fields": {
+    "allowed_domains": "Allowed domains (one per line)",
+    "words": "Words and phrases (one per line)",
+    "action": "Action on violation",
+    "mute_minutes": "Mute duration, minutes"
+  },
+  "actions": {
+    "delete": "Delete",
+    "mute": "Delete and mute",
+    "failed": "Could not delete"
+  },
+  "events": {
+    "empty": "No violations yet",
+    "unknown": "Unknown author",
+    "loadMore": "Load more"
   }
 }
