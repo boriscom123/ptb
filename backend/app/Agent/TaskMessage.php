@@ -29,7 +29,7 @@ class TaskMessage
 
         if ($task->summary && ! $task->status->isActive()) {
             $lines[] = '';
-            $lines[] = e(Str::limit($task->summary, self::MAX_PART_LENGTH));
+            $lines[] = self::markdownToHtml(Str::limit($task->summary, self::MAX_PART_LENGTH));
         }
 
         if ($task->error) {
@@ -56,6 +56,21 @@ class TaskMessage
         }
 
         return implode("\n", $lines);
+    }
+
+    /**
+     * Отчёт Claude приходит в markdown — переводим базовую разметку в HTML Telegram, остальное экранируем.
+     */
+    public static function markdownToHtml(string $text): string
+    {
+        $html = e($text);
+
+        $html = preg_replace('/```[a-z]*\n?(.*?)```/s', '<pre>$1</pre>', $html);
+        $html = preg_replace('/`([^`\n]+)`/', '<code>$1</code>', $html);
+        $html = preg_replace('/\*\*(.+?)\*\*/s', '<b>$1</b>', $html);
+        $html = preg_replace('/^#{1,6}\s+(.+)$/m', '<b>$1</b>', $html);
+
+        return preg_replace('/^(\s*)[-*]\s+/m', '$1• ', $html);
     }
 
     public static function keyboard(AgentTask $task, bool $confirmRevert = false): ?InlineKeyboardMarkup
